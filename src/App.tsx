@@ -1,6 +1,7 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Navigation from "./common/components/Navigation";
+import Catalogue from "./screens/Catalogue";
 import Paper from "@mui/material/Paper";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -9,7 +10,7 @@ function App() {
         <Box className="App" sx={{p: 2}}>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<h1>Catálogo</h1>} />
+                    <Route path="/" element={<Catalogue />} />
                     <Route path="/mis-cursos" element={<h1>Mis Cursos</h1>} />
                 </Routes>
                 <Paper
