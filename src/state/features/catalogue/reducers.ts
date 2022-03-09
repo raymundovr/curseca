@@ -20,6 +20,7 @@ export const catalogueSlice = createSlice({
     reducers: {
         catalogueFetched: (state, action: PayloadAction<Course[]>) => {
             state.isLoading = false;
+            state.hasError = false;
             state.courses = action.payload;
         },
         errorFetchingCatalogue: (state) => {
@@ -28,6 +29,7 @@ export const catalogueSlice = createSlice({
         },
         fetchCatalogue: (state) => {
             state.isLoading = true;
+            state.hasError = false;
         },
     },
 });
