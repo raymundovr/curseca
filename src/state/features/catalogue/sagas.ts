@@ -1,4 +1,3 @@
-import { AnyAction } from 'redux';
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { getCatalogue } from '../../../api';
 import { Course } from '../../../common/types';
