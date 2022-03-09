@@ -4,11 +4,13 @@ import { RootState } from "../../store";
 
 interface OwnState {
     courses: Course[];
+    hasError: boolean;
     isLoading: boolean;
 }
 
 const initialState: OwnState = {
     courses: [],
+    hasError: false,
     isLoading: false,
 };
 
@@ -20,6 +22,10 @@ export const catalogueSlice = createSlice({
             state.isLoading = false;
             state.courses = action.payload;
         },
+        errorFetchingCatalogue: (state) => {
+            state.isLoading = false;
+            state.hasError = true;
+        },
         fetchCatalogue: (state) => {
             state.isLoading = true;
         },
@@ -28,6 +34,6 @@ export const catalogueSlice = createSlice({
 
 export const courses = (state: RootState) => state.catalogue.courses;
 
-export const { catalogueFetched, fetchCatalogue } = catalogueSlice.actions;
+export const { catalogueFetched, errorFetchingCatalogue, fetchCatalogue } = catalogueSlice.actions;
 
 export default catalogueSlice.reducer;
