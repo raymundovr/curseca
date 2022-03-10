@@ -5,6 +5,7 @@ import { setupServer } from 'msw/node';
 import { Provider } from 'react-redux';
 import Catalogue from '../screens/Catalogue';
 import store from '../state/store';
+import { Course } from '../common/types';
 
 const server = setupServer(
     rest.get('/course', (req, res, ctx) => res(ctx.json([]))),
@@ -39,5 +40,36 @@ describe("Comportamiento de Catalogue", () => {
         renderWithWrapper(<Catalogue />);
         await waitFor(() => { screen.getByRole('alert'); });
         expect(screen.getByRole('alert')).toHaveTextContent('Ha habido un error al cargar el catálogo');
+    });
+
+    it("Debe listar los cursos dentro de un catálogo", async () => {
+        const courses: Course[] = [
+            {
+                id: 'test-1',
+                name: 'Test Course One',
+                description: 'Test description'
+            },
+            {
+                id: 'test-2',
+                name: 'Test Course Two',
+                description: 'Test description'
+            },
+            {
+                id: 'test-3',
+                name: 'Test Course Three',
+                description: 'Test description'
+            }
+        ];
+        server.use(
+            rest.get('/course', (req, res, ctx) => res(ctx.json(courses))) 
+        );
+
+        renderWithWrapper(<Catalogue />);
+        await waitFor(() => { screen.getByTestId('courses-list'); });
+        const courseItems = screen.queryAllByTestId(/course-test-\d/);
+        expect(courseItems).toHaveLength(3);
+        expect(
+            courseItems.map(i => i.getAttribute('data-testid'))
+        ).toEqual(expect.arrayContaining(['course-test-1', 'course-test-2', 'course-test-3']))
     });
 });
