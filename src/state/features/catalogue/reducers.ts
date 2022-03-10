@@ -35,6 +35,8 @@ export const catalogueSlice = createSlice({
 });
 
 export const courses = (state: RootState) => state.catalogue.courses;
+export const isLoading = (state: RootState) => state.catalogue.isLoading;
+export const hasError = (state: RootState) => state.catalogue.hasError;
 
 export const { catalogueFetched, errorFetchingCatalogue, fetchCatalogue } = catalogueSlice.actions;
 

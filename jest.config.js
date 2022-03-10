@@ -1,0 +1,9 @@
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+module.exports = {
+    preset: 'ts-jest',
+    testEnvironment: 'jsdom',
+    setupFilesAfterEnv: ['<rootDir>/src/tests/setup.ts'],
+    moduleNameMapper: {
+      "\\.(css|less)$": "<rootDir>/src/tests/mock.css.ts"
+    }
+  };

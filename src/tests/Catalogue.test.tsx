@@ -1,17 +1,14 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import Catalogue from '../screens/Catalogue';
-import catalogueReducer from '../state/features/catalogue/reducers';
+import store from '../state/store';
 
 const server = setupServer(
-    rest.get('/catalogue', (req, res, ctx) => res(ctx.json([]))),
+    rest.get('/course', (req, res, ctx) => res(ctx.json([]))),
 );
-
-const store = configureStore({ reducer: { catalogue: catalogueReducer } });
 
 const Wrapper = ({children}: {children: JSX.Element}) => <Provider store={store}>{children}</Provider>;
 
@@ -33,5 +30,14 @@ describe("Comportamiento de Catalogue", () => {
     it("Debe mostrar un mensaje cuando no hay cursos disponibles", () => {
         renderWithWrapper(<Catalogue />);
         expect(screen.getByText('No hay cursos disponibles')).toBeInTheDocument();
+    });
+
+    it("Debe mostrar un mensaje de error cuando el catálogo no puede ser descargado", async () => {
+        server.use(
+            rest.get('/course', (req, res, ctx) => res(ctx.status(500)))
+        );
+        renderWithWrapper(<Catalogue />);
+        await waitFor(() => { screen.getByRole('alert'); });
+        expect(screen.getByRole('alert')).toHaveTextContent('Ha habido un error al cargar el catálogo');
     });
 });

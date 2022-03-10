@@ -7,7 +7,7 @@ export function* loadCatalogue() {
     try {
         const courses: Course[] = yield call(getCatalogue);
         yield put(catalogueFetched(courses));
-    } catch (err) {
+    } catch (err: any) {
         yield put(errorFetchingCatalogue());
     }
 }
