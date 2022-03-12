@@ -52,7 +52,6 @@ const Catalogue = () => {
                     {!hasErrorFetching && coursesInCatalogue.length > 0 && (
                         <List
                             className="ul__courses-list"
-                            data-testid="courses-list"
                             sx={{ maxWidth: 600 }}
                         >
                             {coursesInCatalogue.map((course) => (
