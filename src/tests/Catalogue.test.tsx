@@ -28,8 +28,9 @@ describe("Comportamiento de Catalogue", () => {
         server.close();
     })
 
-    it("Debe mostrar un mensaje cuando no hay cursos disponibles", () => {
+    it("Debe mostrar un mensaje cuando no hay cursos disponibles", async () => {
         renderWithWrapper(<Catalogue />);
+        await (waitFor(() => { screen.getByRole('main'); }))
         expect(screen.getByText('No hay cursos disponibles')).toBeInTheDocument();
     });
 
