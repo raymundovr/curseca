@@ -7,4 +7,4 @@ export async function get<T>(url: string): Promise<T> {
     return response.data as unknown as T;
 };
 
-export const getCatalogue = () => get<Course[]>('/course');
+export const getCatalogue = () => get<Course[]>('/courses');

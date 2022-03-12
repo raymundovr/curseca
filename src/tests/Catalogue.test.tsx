@@ -8,7 +8,7 @@ import store from '../state/store';
 import { Course } from '../common/types';
 
 const server = setupServer(
-    rest.get('/course', (req, res, ctx) => res(ctx.json([]))),
+    rest.get('/courses', (req, res, ctx) => res(ctx.json([]))),
 );
 
 const Wrapper = ({children}: {children: JSX.Element}) => <Provider store={store}>{children}</Provider>;
@@ -36,7 +36,7 @@ describe("Comportamiento de Catalogue", () => {
 
     it("Debe mostrar un mensaje de error cuando el catálogo no puede ser descargado", async () => {
         server.use(
-            rest.get('/course', (req, res, ctx) => res(ctx.status(500)))
+            rest.get('/courses', (req, res, ctx) => res(ctx.status(500)))
         );
         renderWithWrapper(<Catalogue />);
         await waitFor(() => { screen.getByRole('alert'); });
@@ -62,7 +62,7 @@ describe("Comportamiento de Catalogue", () => {
             }
         ];
         server.use(
-            rest.get('/course', (req, res, ctx) => res(ctx.json(courses))) 
+            rest.get('/courses', (req, res, ctx) => res(ctx.json(courses))) 
         );
 
         renderWithWrapper(<Catalogue />);
