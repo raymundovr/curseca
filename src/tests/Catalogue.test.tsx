@@ -67,7 +67,7 @@ describe("Comportamiento de Catalogue", () => {
 
         renderWithWrapper(<Catalogue />);
         await waitFor(() => { screen.getByRole('main'); });
-        const courseItems = screen.queryAllByTestId(/course-test-\d/);
+        const courseItems = screen.queryAllByTestId(/^course-test-\d$/);
         expect(courseItems).toHaveLength(3);
         expect(
             courseItems.map(i => i.getAttribute('data-testid'))
