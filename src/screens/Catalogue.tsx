@@ -1,13 +1,9 @@
 import React, { useEffect } from "react";
 import {
-    Avatar,
     Box,
     CircularProgress,
     Divider,
     List,
-    ListItem,
-    ListItemAvatar,
-    ListItemText,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -16,7 +12,7 @@ import {
     hasError,
     isLoading,
 } from "../state/features/catalogue/reducers";
-import { School } from "@mui/icons-material";
+import CourseItem from "../common/components/CourseItem";
 
 const Catalogue = () => {
     const isCatalogueLoading = useSelector(isLoading);
@@ -56,20 +52,7 @@ const Catalogue = () => {
                         >
                             {coursesInCatalogue.map((course) => (
                                 <React.Fragment key={course.id}>
-                                    <ListItem
-                                        data-testid={`course-${course.id}`}
-                                        key={course.id}
-                                    >
-                                        <ListItemAvatar>
-                                            <Avatar>
-                                                <School color="primary" />
-                                            </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                            primary={course.name}
-                                            secondary={course.description}
-                                        />
-                                    </ListItem>
+                                    <CourseItem course={course} />
                                     <Divider variant="inset" component="li" />
                                 </React.Fragment>
                             ))}
