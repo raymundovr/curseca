@@ -1,7 +1,6 @@
-import React from "react";
-import { AddBoxRounded } from "@mui/icons-material";
+import React, { useState } from "react";
+import { AddBoxRounded, Check } from "@mui/icons-material";
 import {
-    Avatar,
     IconButton,
     ListItem,
     ListItemAvatar,
@@ -10,22 +9,43 @@ import {
 import { Course } from "../types";
 
 interface OwnProps {
+    alreadyInMyCurriculum: boolean;
     course: Course;
+    handleAddAction: (id: string) => void;
 }
 
-const CourseItem = ({ course }: OwnProps) => (
-    <ListItem data-testid={`course-${course.id}`} key={course.id}>
-        <ListItemText primary={course.name} secondary={course.description} />
-        <ListItemAvatar>
-            <IconButton
-                color="primary"
-                aria-label="add course"
-                data-testid={`add-course-${course.id}`}
-            >
-                <AddBoxRounded />
-            </IconButton>
-        </ListItemAvatar>
-    </ListItem>
-);
+const CourseItem = ({
+    alreadyInMyCurriculum,
+    course,
+    handleAddAction,
+}: OwnProps) => {
+    const [isDisabled, setIsDisabled] = useState(false);
+
+    return (
+        <ListItem data-testid={`course-${course.id}`} key={course.id}>
+            <ListItemText
+                primary={course.name}
+                secondary={course.description}
+            />
+            <ListItemAvatar>
+                {alreadyInMyCurriculum && <Check data-testid={`added-course-${course.id}`} />}
+                {!alreadyInMyCurriculum && (
+                    <IconButton
+                        color="primary"
+                        aria-label="add course"
+                        data-testid={`add-course-${course.id}`}
+                        disabled={isDisabled}
+                        onClick={() => {
+                            setIsDisabled(true);
+                            handleAddAction(course.id);
+                        }}
+                    >
+                        <AddBoxRounded />
+                    </IconButton>
+                )}
+            </ListItemAvatar>
+        </ListItem>
+    );
+};
 
 export default CourseItem;

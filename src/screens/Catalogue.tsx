@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Box,
     CircularProgress,
@@ -12,17 +12,30 @@ import {
     hasError,
     isLoading,
 } from "../state/features/catalogue/reducers";
+import { addCourseToCurriculum, fetchCurriculum, curriculumIsLoading, curriculumCourses } from "../state/features/curriculum/reducers";
 import CourseItem from "../common/components/CourseItem";
 
 const Catalogue = () => {
     const isCatalogueLoading = useSelector(isLoading);
     const coursesInCatalogue = useSelector(courses);
     const hasErrorFetching = useSelector(hasError);
+    const isCurriculumLoading = useSelector(curriculumIsLoading);
+    const myCourses = useSelector(curriculumCourses);
     const dispatch = useDispatch();
+    const [showCatalogue, setShowCatalogue] = useState(false);
 
     useEffect(() => {
         dispatch(fetchCatalogue());
+        dispatch(fetchCurriculum());
     }, []);
+
+    const addCourseToMyCurriculum = (id: string) => {
+        dispatch(addCourseToCurriculum(id));
+    };
+
+    useEffect(() => {
+        setShowCatalogue(!isCatalogueLoading && !isCurriculumLoading);
+    }, [isCatalogueLoading, isCurriculumLoading]);
 
     return (
         <Box
@@ -33,9 +46,9 @@ const Catalogue = () => {
             }}
         >
             <h1>Catálogo de Cursos</h1>
-            {isCatalogueLoading && <CircularProgress role="loading" />}
+            {!showCatalogue && <CircularProgress role="loading" />}
 
-            {!isCatalogueLoading && (
+            {showCatalogue && (
                 <div className="div__catalogue" role="main">
                     {hasErrorFetching && (
                         <p role="alert">
@@ -52,7 +65,11 @@ const Catalogue = () => {
                         >
                             {coursesInCatalogue.map((course) => (
                                 <React.Fragment key={course.id}>
-                                    <CourseItem course={course} />
+                                    <CourseItem
+                                        alreadyInMyCurriculum={ !!myCourses.find(c => c.id === course.id) }
+                                        course={course}
+                                        handleAddAction={addCourseToMyCurriculum}
+                                    />
                                     <Divider variant="inset" component="li" />
                                 </React.Fragment>
                             ))}
