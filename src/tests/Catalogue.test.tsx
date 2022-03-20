@@ -2,19 +2,14 @@ import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { Provider } from 'react-redux';
 import Catalogue from '../screens/Catalogue';
-import store from '../state/store';
 import { Course } from '../common/types';
+import renderWithWrapper from './Wrapper';
 
 const server = setupServer(
     rest.get('/courses', (req, res, ctx) => res(ctx.json([]))),
     rest.get('/curriculum', (req, res, ctx) => res(ctx.json([]))),
 );
-
-const Wrapper = ({children}: {children: JSX.Element}) => <Provider store={store}>{children}</Provider>;
-
-const renderWithWrapper = (component: JSX.Element) => render(component, { wrapper: Wrapper });
 
 describe("Comportamiento de Catalogue", () => {
     beforeAll(() => {

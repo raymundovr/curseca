@@ -29,7 +29,7 @@ const Navigation = () => {
             <BottomNavigationAction
                 label="Mis Cursos"
                 icon={
-                    <Badge badgeContent={myCoursesCount} color="primary">
+                    <Badge badgeContent={myCoursesCount} color="primary" data-testid="mycourses-badge">
                     <FavoriteIcon />
                     </Badge>
                 }
