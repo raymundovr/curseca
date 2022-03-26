@@ -1,3 +1,14 @@
+# About this
+
+✍🏽 This is a project to reflect a series of posts in my personal blog.
+
+[Part I](https://blog.vasquezruiz.me/react-redux-toolkit-saga-i/) where the foundations are layed out.
+
+[Part II](https://blog.vasquezruiz.me/react-redux-toolkit-saga-ii/) where the project setup is explained together with an initial use case and its tests.
+
+[Part III](https://blog.vasquezruiz.me/react-redux-toolkit-saga-iii/) where a second use case is added and its tests.
+
+
 # Getting Started
 
 Demo project React + Redux + Redux Saga + Jest
